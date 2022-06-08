@@ -5,6 +5,16 @@ tasks:
     init: go install honnef.co/go/tools/cmd/staticcheck@latest
   - name: install go-task
     init: go install github.com/go-task/task/v3/cmd/task@latest
+  - name: install exa
+    command: >-
+      mkdir -p bin tmp && 
+      (
+        cd tmp && 
+        wget https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip && 
+        unzip exa-linux-x86_64-v0.10.1.zip && 
+        cp bin/exa ../bin
+      ) && 
+      rm -rf tmp
 
 vscode:
   extensions:

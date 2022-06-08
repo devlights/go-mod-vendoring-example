@@ -1,0 +1,36 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task: fmt
+      - task: vet
+      - task: run-using-vendor
+  fmt:
+    cmds:
+      - go fmt ./...
+  vet:
+    cmds:
+      - go vet ./...
+      - staticcheck ./...
+  run-normal:
+    desc: vendoring なし
+    cmds:
+      - go clean
+      - go clean -modcache -x
+      - go get .
+      - go build
+      - ./go-mod-vendoring-example
+      - bin/exa --tree $(go env GOPATH)/pkg
+  run-using-vendor:
+    desc: vendoring あり
+    cmds:
+      - go get .
+      - go mod vendor
+      - go clean
+      - go clean -modcache -x
+      - go build
+      - ./go-mod-vendoring-example
+      - bin/exa --tree $(go env GOPATH)/pkg
+      - bin/exa --tree vendor/
+      - cat vendor/modules.txt
